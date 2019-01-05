@@ -19,7 +19,10 @@ public class ButtonPresenterEventArgs : System.EventArgs
 public class MainUIViewPresenter : MonoBehaviour
 {
 
-    public Button TestButton;
+    public GameObject dwarfHunterPrefab;
+    public GameObject dwarfLordPrefab;
+    public GameObject dwarfWarriorPrefab;
+    public GameObject zombieWarriorPrefab;
 
     public event EventHandler<ButtonPresenterEventArgs> Clicked;
 
@@ -27,13 +30,32 @@ public class MainUIViewPresenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TestButton.onClick.AddListener(() => OnButtonClicked());   
+        //TestButton.onClick.AddListener(() => OnButtonClicked());   
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void createPrefab(string name)
+    {
+        switch (name)
+        {
+            case "dwarf_hunter":
+                Instantiate(dwarfHunterPrefab);
+                break;
+            case "dwarf_lord":
+                Instantiate(dwarfLordPrefab);
+                break;
+            case "dwarf_warrior":
+                Instantiate(dwarfWarriorPrefab);
+                break;
+            case "zombie_warrior":
+                Instantiate(zombieWarriorPrefab);
+                break;
+        }
     }
 
     protected virtual void OnButtonClicked()

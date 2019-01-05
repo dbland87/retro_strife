@@ -10,6 +10,9 @@ public class EncounterController
 
     MainUIViewPresenter mainUI { get; set; }
 
+    GameObject unitsObject;
+    List<UnitModel> playerUnitsList;
+    List<UnitModel> enemyUnitsList;
 
     public EncounterController()
     {
@@ -27,7 +30,11 @@ public class EncounterController
 
     public void initialize()
     {
+        unitsObject = GameObject.Find("Units");
+        playerUnitsList = unitsObject.GetComponent<Units>().playerUnits;
+        enemyUnitsList = unitsObject.GetComponent<Units>().enemyUnits;
 
+        spawnUnits();
     }
 
     private void onEncounterTurnStateChanged(EncounterTurnModel.EncounterState state)
@@ -69,6 +76,40 @@ public class EncounterController
                 break;
             case EncounterTurnModel.EncounterState.DEFEAT:
                 onDefeat();
+                break;
+        }
+    }
+
+    private void spawnUnits()
+    {
+
+        if (unitsObject != null)
+        {
+            if (playerUnitsList != null && playerUnitsList.Count > 0)
+            {
+                foreach (var unit in playerUnitsList)
+                {
+                    spawnUnitPrefab(unit.id);
+                }
+            }
+        }
+    }
+
+    private void spawnUnitPrefab(int id)
+    {
+        switch(id)
+        {
+            case 1:
+                mainUI.createPrefab("dwarf_hunter");
+                break;
+            case 2:
+                mainUI.createPrefab("dwarf_lord");
+                break;
+            case 3:
+                mainUI.createPrefab("dwarf_warrior");
+                break;
+            case 4:
+                mainUI.createPrefab("zombie_warrior");
                 break;
         }
     }
