@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +10,11 @@ public class EncounterController
 
     MainUIViewPresenter mainUI { get; set; }
 
+    UnitPresenter unitPresenter { get; set; }
+
+    private int FIRST_PLAYER_POSITION = 0;
+    private int FIRST_ENEMY_POSITION = 3;
+
     GameObject unitsObject;
     List<UnitModel> playerUnitsList;
     List<UnitModel> enemyUnitsList;
@@ -17,6 +22,8 @@ public class EncounterController
     public EncounterController()
     {
         mainUI = CreateView("MainUI").GetComponent<MainUIViewPresenter>();
+
+        unitPresenter = GameObject.Find("Units").GetComponent<UnitPresenter>();
 
         // Create models
         turnModel = new EncounterTurnModel();
@@ -87,31 +94,30 @@ public class EncounterController
         {
             if (playerUnitsList != null && playerUnitsList.Count > 0)
             {
+                int position = FIRST_PLAYER_POSITION;
                 foreach (var unit in playerUnitsList)
                 {
-                    spawnUnitPrefab(unit.id);
+                    spawnUnitPrefab(unit, position);
+                    position++;
+                }
+            }
+
+            if (enemyUnitsList != null && enemyUnitsList.Count > 0)
+            {
+                int position = FIRST_ENEMY_POSITION;
+                foreach (var unit in enemyUnitsList)
+                {
+                    spawnUnitPrefab(unit, position);
+                    position++;
                 }
             }
         }
     }
 
-    private void spawnUnitPrefab(int id)
+    private void spawnUnitPrefab(UnitModel unit, int position)
     {
-        switch(id)
-        {
-            case 1:
-                mainUI.createPrefab("dwarf_hunter");
-                break;
-            case 2:
-                mainUI.createPrefab("dwarf_lord");
-                break;
-            case 3:
-                mainUI.createPrefab("dwarf_warrior");
-                break;
-            case 4:
-                mainUI.createPrefab("zombie_warrior");
-                break;
-        }
+        string unitName = Enum.GetName(typeof(UNIT_NAME), unit.id);
+        unitPresenter.createPrefab(unitName, position);
     }
 
     private void onRoundStart()
@@ -193,7 +199,7 @@ public class EncounterController
 
     GameObject CreateView(string viewName)
     { 
-        return GameObject.Find("MainUI");
+        return GameObject.Find(viewName);
     }
 }
 

@@ -232,7 +232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 683351882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5364134, y: -0.13933119, z: -0.03203829}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -348,14 +348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433c623dcf5cddb45a936a3470731333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwarfHunterPrefab: {fileID: 1736703621911789599, guid: c62d6236b9ecd62408d290c42a0d826b,
-    type: 3}
-  dwarfLordPrefab: {fileID: 6167047471282656328, guid: c81b32f740b10e54cafd2c8912e16fd2,
-    type: 3}
-  dwarfWarriorPrefab: {fileID: 2077395835384742178, guid: 46c9552b4abf7d442b7b2db1cdc3d712,
-    type: 3}
-  zombieWarriorPrefab: {fileID: 6195712756101306554, guid: 7f7db584e87743549aef9b0e62c6199a,
-    type: 3}
 --- !u!1 &1789387224
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,49 +446,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &1882886225
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1882886226}
-  - component: {fileID: 1882886227}
-  m_Layer: 0
-  m_Name: Units
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1882886226
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1882886225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5021568, y: -0.004776161, z: -0.08203125}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1882886227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1882886225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81782f01df39c674c8d262dd8f96b630, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1893059044
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893059044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.37, y: -1.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

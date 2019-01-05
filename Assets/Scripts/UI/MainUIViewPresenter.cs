@@ -17,12 +17,7 @@ public class ButtonPresenterEventArgs : System.EventArgs
 }
 
 public class MainUIViewPresenter : MonoBehaviour
-{
-
-    public GameObject dwarfHunterPrefab;
-    public GameObject dwarfLordPrefab;
-    public GameObject dwarfWarriorPrefab;
-    public GameObject zombieWarriorPrefab;
+{ 
 
     public event EventHandler<ButtonPresenterEventArgs> Clicked;
 
@@ -39,24 +34,7 @@ public class MainUIViewPresenter : MonoBehaviour
         
     }
 
-    public void createPrefab(string name)
-    {
-        switch (name)
-        {
-            case "dwarf_hunter":
-                Instantiate(dwarfHunterPrefab);
-                break;
-            case "dwarf_lord":
-                Instantiate(dwarfLordPrefab);
-                break;
-            case "dwarf_warrior":
-                Instantiate(dwarfWarriorPrefab);
-                break;
-            case "zombie_warrior":
-                Instantiate(zombieWarriorPrefab);
-                break;
-        }
-    }
+    
 
     protected virtual void OnButtonClicked()
     {
