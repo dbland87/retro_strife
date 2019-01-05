@@ -9,11 +9,10 @@ public class UnitPresenter : MonoBehaviour
     public GameObject dwarfLordPrefab;
     public GameObject dwarfWarriorPrefab;
     public GameObject zombieWarriorPrefab;
-
     // Start is called before the first frame update
     void Start()
     {
-        
+    
     }
 
     // Update is called once per frame
@@ -22,9 +21,8 @@ public class UnitPresenter : MonoBehaviour
         
     }
 
-    public void createPrefab(string name, int position)
+    public void createPrefab(string name, Vector2 position)
     {
-       
         UNIT_NAME _name;
 
         if (Enum.TryParse(name, out _name))
@@ -32,16 +30,16 @@ public class UnitPresenter : MonoBehaviour
             switch(_name)
             {
                 case UNIT_NAME.DWARF_HUNTER:
-                    Instantiate(dwarfHunterPrefab);
+                    Instantiate(dwarfHunterPrefab, position, Quaternion.identity);
                     break;
                 case UNIT_NAME.DWARF_LORD:
-                    Instantiate(dwarfLordPrefab);
+                    Instantiate(dwarfLordPrefab, position, Quaternion.identity);
                     break;
                 case UNIT_NAME.DWARF_WARRIOR:
-                    Instantiate(dwarfWarriorPrefab);
+                    Instantiate(dwarfWarriorPrefab, position, Quaternion.identity);
                     break;
                 case UNIT_NAME.ZOMBIE_WARRIOR:
-                    Instantiate(zombieWarriorPrefab);
+                    Instantiate(zombieWarriorPrefab, position, Quaternion.identity);
                     break;
             }
         }

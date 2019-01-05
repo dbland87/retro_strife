@@ -12,6 +12,8 @@ public class EncounterController
 
     UnitPresenter unitPresenter { get; set; }
 
+    UnitSpawner unitSpawner { get; set; }
+
     private int FIRST_PLAYER_POSITION = 0;
     private int FIRST_ENEMY_POSITION = 3;
 
@@ -40,7 +42,7 @@ public class EncounterController
         unitsObject = GameObject.Find("Units");
         playerUnitsList = unitsObject.GetComponent<Units>().playerUnits;
         enemyUnitsList = unitsObject.GetComponent<Units>().enemyUnits;
-
+        unitSpawner = GameObject.Find("Unit Spawner").GetComponent<UnitSpawner>();    
         spawnUnits();
     }
 
@@ -117,7 +119,21 @@ public class EncounterController
     private void spawnUnitPrefab(UnitModel unit, int position)
     {
         string unitName = Enum.GetName(typeof(UNIT_NAME), unit.id);
-        unitPresenter.createPrefab(unitName, position);
+        switch(position)
+        {
+            case 0: unitPresenter.createPrefab(unitName, unitSpawner.firstPosition);
+            break;
+            case 1: unitPresenter.createPrefab(unitName, unitSpawner.secondPosition);
+            break;
+            case 2: unitPresenter.createPrefab(unitName, unitSpawner.thirdPosition);
+            break;
+            case 3: unitPresenter.createPrefab(unitName, unitSpawner.fourthPosition);
+            break;
+            case 4: unitPresenter.createPrefab(unitName, unitSpawner.fifthPosition);
+            break;
+            case 5: unitPresenter.createPrefab(unitName, unitSpawner.sixthPosition);
+            break;
+        }
     }
 
     private void onRoundStart()
