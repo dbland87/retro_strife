@@ -12,7 +12,7 @@ public class EncounterController
 
     UnitPresenter unitPresenter { get; set; }
 
-    UnitSpawner unitSpawner { get; set; }
+    PositionController positionController { get; set; }
 
     private int FIRST_PLAYER_POSITION = 0;
     private int FIRST_ENEMY_POSITION = 3;
@@ -42,7 +42,7 @@ public class EncounterController
         unitsObject = GameObject.Find("Units");
         playerUnitsList = unitsObject.GetComponent<Units>().playerUnits;
         enemyUnitsList = unitsObject.GetComponent<Units>().enemyUnits;
-        unitSpawner = GameObject.Find("Unit Spawner").GetComponent<UnitSpawner>();    
+        positionController = GameObject.Find("PositionController").GetComponent<PositionController>();    
         spawnUnits();
     }
 
@@ -121,17 +121,17 @@ public class EncounterController
         string unitName = Enum.GetName(typeof(UNIT_NAME), unit.id);
         switch(position)
         {
-            case 0: unitPresenter.createPrefab(unitName, unitSpawner.firstPosition);
+            case 0: unitPresenter.createPrefab(unitName, positionController.firstPosition);
             break;
-            case 1: unitPresenter.createPrefab(unitName, unitSpawner.secondPosition);
+            case 1: unitPresenter.createPrefab(unitName, positionController.secondPosition);
             break;
-            case 2: unitPresenter.createPrefab(unitName, unitSpawner.thirdPosition);
+            case 2: unitPresenter.createPrefab(unitName, positionController.thirdPosition);
             break;
-            case 3: unitPresenter.createPrefab(unitName, unitSpawner.fourthPosition);
+            case 3: unitPresenter.createPrefab(unitName, positionController.fourthPosition);
             break;
-            case 4: unitPresenter.createPrefab(unitName, unitSpawner.fifthPosition);
+            case 4: unitPresenter.createPrefab(unitName, positionController.fifthPosition);
             break;
-            case 5: unitPresenter.createPrefab(unitName, unitSpawner.sixthPosition);
+            case 5: unitPresenter.createPrefab(unitName, positionController.sixthPosition);
             break;
         }
     }

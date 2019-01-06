@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 1199247681}
   - component: {fileID: 1199247680}
   m_Layer: 0
-  m_Name: Unit Spawner
+  m_Name: PositionController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -377,7 +377,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0f9884300cda0489c9caf6ad4a828f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstPosition: {x: 0, y: 0}
+  firstPosition: {x: 0, y: 0, z: 0}
+  secondPosition: {x: 0, y: 0, z: 0}
+  thirdPosition: {x: 0, y: 0, z: 0}
+  fourthPosition: {x: 0, y: 0, z: 0}
+  fifthPosition: {x: 0, y: 0, z: 0}
+  sixthPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1199247681
 Transform:
   m_ObjectHideFlags: 0
