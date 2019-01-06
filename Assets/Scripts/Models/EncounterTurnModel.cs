@@ -28,7 +28,12 @@ public class EncounterTurnModel
 
     public EncounterTurnModel()
     {
+        
+    }
+
+    public void initialize() {
         currentState = EncounterState.ROUND_START;
+        EncounterStateChanged(this, currentState);
     }
 
     private void onSetEncounterState(EncounterState state)

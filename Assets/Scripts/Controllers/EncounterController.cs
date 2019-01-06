@@ -5,19 +5,10 @@ using UnityEngine;
 public class EncounterController
 {
     PlayerModel player { get; set; }
-
     EncounterTurnModel turnModel { get; set; }
-
     MainUIViewPresenter mainUI { get; set; }
-
-    UnitPresenter unitPresenter { get; set; }
-
     PositionController positionController { get; set; }
-
-    private int FIRST_PLAYER_POSITION = 0;
-    private int FIRST_ENEMY_POSITION = 3;
-
-    GameObject unitsObject;
+    UnitController unitController { get; set; }
     List<UnitModel> playerUnitsList;
     List<UnitModel> enemyUnitsList;
 
@@ -25,25 +16,21 @@ public class EncounterController
     {
         mainUI = CreateView("MainUI").GetComponent<MainUIViewPresenter>();
 
-        unitPresenter = GameObject.Find("Units").GetComponent<UnitPresenter>();
-
         // Create models
         turnModel = new EncounterTurnModel();
         player = new PlayerModel();
 
         // Wire up UI events
-        mainUI.Clicked += (s, e) => onButtonClicked();
         turnModel.EncounterStateChanged += (s, e) => onEncounterTurnStateChanged(e);
 
     }
-
     public void initialize()
     {
-        unitsObject = GameObject.Find("Units");
-        playerUnitsList = unitsObject.GetComponent<Units>().playerUnits;
-        enemyUnitsList = unitsObject.GetComponent<Units>().enemyUnits;
         positionController = GameObject.Find("PositionController").GetComponent<PositionController>();    
-        spawnUnits();
+        unitController = new UnitController();
+
+        unitController.initialize();
+        turnModel.initialize();
     }
 
     private void onEncounterTurnStateChanged(EncounterTurnModel.EncounterState state)
@@ -86,53 +73,6 @@ public class EncounterController
             case EncounterTurnModel.EncounterState.DEFEAT:
                 onDefeat();
                 break;
-        }
-    }
-
-    private void spawnUnits()
-    {
-
-        if (unitsObject != null)
-        {
-            if (playerUnitsList != null && playerUnitsList.Count > 0)
-            {
-                int position = FIRST_PLAYER_POSITION;
-                foreach (var unit in playerUnitsList)
-                {
-                    spawnUnitPrefab(unit, position);
-                    position++;
-                }
-            }
-
-            if (enemyUnitsList != null && enemyUnitsList.Count > 0)
-            {
-                int position = FIRST_ENEMY_POSITION;
-                foreach (var unit in enemyUnitsList)
-                {
-                    spawnUnitPrefab(unit, position);
-                    position++;
-                }
-            }
-        }
-    }
-
-    private void spawnUnitPrefab(UnitModel unit, int position)
-    {
-        string unitName = Enum.GetName(typeof(UNIT_NAME), unit.id);
-        switch(position)
-        {
-            case 0: unitPresenter.createPrefab(unitName, positionController.firstPosition);
-            break;
-            case 1: unitPresenter.createPrefab(unitName, positionController.secondPosition);
-            break;
-            case 2: unitPresenter.createPrefab(unitName, positionController.thirdPosition);
-            break;
-            case 3: unitPresenter.createPrefab(unitName, positionController.fourthPosition);
-            break;
-            case 4: unitPresenter.createPrefab(unitName, positionController.fifthPosition);
-            break;
-            case 5: unitPresenter.createPrefab(unitName, positionController.sixthPosition);
-            break;
         }
     }
 

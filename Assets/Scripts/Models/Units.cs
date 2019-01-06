@@ -37,7 +37,7 @@ public class Units : MonoBehaviour
         playerUnit2.name = "Gimli";
         playerUnit2.level = 3;
         playerUnit2.hp = 100;
-        playerUnit2.speed = 5;
+        playerUnit2.speed = 4;
         playerUnit2.def = 5;
         playerUnit2.attack = 5;
 
@@ -55,7 +55,7 @@ public class Units : MonoBehaviour
         enemyUnit1.name = "Steve";
         enemyUnit1.level = 3;
         enemyUnit1.hp = 100;
-        enemyUnit1.speed = 5;
+        enemyUnit1.speed = 8;
         enemyUnit1.def = 5;
         enemyUnit1.attack = 5;
 
@@ -64,7 +64,7 @@ public class Units : MonoBehaviour
         enemyUnit2.name = "Starfox";
         enemyUnit2.level = 3;
         enemyUnit2.hp = 100;
-        enemyUnit2.speed = 5;
+        enemyUnit2.speed = 2;
         enemyUnit2.def = 5;
         enemyUnit2.attack = 5;
 
