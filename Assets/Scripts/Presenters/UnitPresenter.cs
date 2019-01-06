@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnitPresenter : MonoBehaviour
 {
-
     public GameObject dwarfHunterPrefab;
     public GameObject dwarfLordPrefab;
     public GameObject dwarfWarriorPrefab;
     public GameObject zombieWarriorPrefab;
+
+    public GameObject actionButton;
+    public GameObject uiCanvas;
     // Start is called before the first frame update
+    void awake() {
+        uiCanvas = GameObject.Find("UICanvas");
+    }
     void Start()
     {
-    
+        
     }
 
     // Update is called once per frame
@@ -45,7 +51,21 @@ public class UnitPresenter : MonoBehaviour
         }
     }
 
+    private void displayUnitActions(List<UnitAction> actions) {
+        foreach (var action in actions) {
+            GameObject go = Instantiate(actionButton);
+            // Button button = go.GetComponent<Button>();
+            go.transform.SetParent(uiCanvas.transform, false);
+            // go.onClick.AddListener(() => Debug.Log(action.name));
+        }
+    }
+
+    public void onActionButtonClicked() {
+        Debug.Log("Clicked");
+    }
+
     public void setActiveUnit(UnitModel unit) {
         Debug.Log("Active unit: " + unit.name);
+        displayUnitActions(unit.actions);
     }
 }

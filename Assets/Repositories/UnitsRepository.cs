@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Units : MonoBehaviour
+public class UnitsRepository : MonoBehaviour
 {
 
     public List<UnitModel> playerUnits = new List<UnitModel>();
@@ -31,6 +31,9 @@ public class Units : MonoBehaviour
         playerUnit1.speed = 5;
         playerUnit1.def = 5;
         playerUnit1.attack = 5;
+        playerUnit1.actions.Add(
+            new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
+            );
 
         UnitModel playerUnit2 = new UnitModel();
         playerUnit2.id = 1;
@@ -40,6 +43,9 @@ public class Units : MonoBehaviour
         playerUnit2.speed = 4;
         playerUnit2.def = 5;
         playerUnit2.attack = 5;
+        playerUnit2.actions.Add(
+            new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
+            );
 
         UnitModel playerUnit3 = new UnitModel();
         playerUnit3.id = 2;
@@ -49,6 +55,9 @@ public class Units : MonoBehaviour
         playerUnit3.speed = 5;
         playerUnit3.def = 5;
         playerUnit3.attack = 5;
+        playerUnit3.actions.Add(
+            new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
+            );
 
         UnitModel enemyUnit1 = new UnitModel();
         enemyUnit1.id = 3;
@@ -58,6 +67,9 @@ public class Units : MonoBehaviour
         enemyUnit1.speed = 5;
         enemyUnit1.def = 5;
         enemyUnit1.attack = 5;
+        enemyUnit1.actions.Add(
+            new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
+            );
 
         UnitModel enemyUnit2 = new UnitModel();
         enemyUnit2.id = 3;
@@ -67,6 +79,9 @@ public class Units : MonoBehaviour
         enemyUnit2.speed = 2;
         enemyUnit2.def = 5;
         enemyUnit2.attack = 5;
+        enemyUnit2.actions.Add(
+            new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
+            );
 
         playerUnits.Add(playerUnit1);
         playerUnits.Add(playerUnit2);

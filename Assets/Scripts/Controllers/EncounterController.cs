@@ -7,7 +7,7 @@ public class EncounterController
     PlayerModel player { get; set; }
     EncounterTurnModel turnModel { get; set; }
     MainUIViewPresenter mainUI { get; set; }
-    PositionController positionController { get; set; }
+    PositionFinder positionFinder { get; set; }
     UnitController unitController { get; set; }
     List<UnitModel> playerUnitsList;
     List<UnitModel> enemyUnitsList;
@@ -26,7 +26,7 @@ public class EncounterController
     }
     public void initialize()
     {
-        positionController = GameObject.Find("PositionController").GetComponent<PositionController>();    
+        positionFinder = GameObject.Find("PositionFinder").GetComponent<PositionFinder>();    
         unitController = new UnitController();
 
         unitController.initialize();

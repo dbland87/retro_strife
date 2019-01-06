@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
 
+//TODO this shouldn't extend monobehavior. Need a better initializer.
     private bool hasLoaded = false;
     // Start is called before the first frame update
     void Start()

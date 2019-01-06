@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PositionController : MonoBehaviour
+public class PositionFinder : MonoBehaviour
 {
 
     Camera cam;
