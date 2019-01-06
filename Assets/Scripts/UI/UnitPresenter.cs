@@ -44,4 +44,8 @@ public class UnitPresenter : MonoBehaviour
             }
         }
     }
+
+    public void setActiveUnit(UnitModel unit) {
+        Debug.Log("Active unit: " + unit.name);
+    }
 }

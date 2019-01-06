@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 480397202}
   - component: {fileID: 480397203}
   - component: {fileID: 480397204}
-  - component: {fileID: 480397205}
   m_Layer: 0
   m_Name: Units
   m_TagString: Untagged
@@ -177,20 +176,6 @@ MonoBehaviour:
     type: 3}
   zombieWarriorPrefab: {fileID: 6195712756101306554, guid: 7f7db584e87743549aef9b0e62c6199a,
     type: 3}
-  unitSpawner: {fileID: 0}
---- !u!114 &480397205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480397201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa0f9884300cda0489c9caf6ad4a828f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstPosition: {x: 0, y: 0}
 --- !u!1 &978394867
 GameObject:
   m_ObjectHideFlags: 0

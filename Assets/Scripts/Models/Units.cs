@@ -55,7 +55,7 @@ public class Units : MonoBehaviour
         enemyUnit1.name = "Steve";
         enemyUnit1.level = 3;
         enemyUnit1.hp = 100;
-        enemyUnit1.speed = 8;
+        enemyUnit1.speed = 5;
         enemyUnit1.def = 5;
         enemyUnit1.attack = 5;
 
