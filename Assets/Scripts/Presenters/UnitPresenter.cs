@@ -14,7 +14,7 @@ public class UnitPresenter : MonoBehaviour
     public GameObject uiCanvas;
     // Start is called before the first frame update
     void awake() {
-        uiCanvas = GameObject.Find("UICanvas");
+        
     }
     void Start()
     {
@@ -52,20 +52,26 @@ public class UnitPresenter : MonoBehaviour
     }
 
     private void displayUnitActions(List<UnitAction> actions) {
+        if (uiCanvas == null) {
+            uiCanvas = GameObject.Find("UICanvas");
+        }
         foreach (var action in actions) {
-            GameObject go = Instantiate(actionButton);
-            // Button button = go.GetComponent<Button>();
-            go.transform.SetParent(uiCanvas.transform, false);
-            // go.onClick.AddListener(() => Debug.Log(action.name));
+            GameObject buttonObject = Instantiate(actionButton);            
+            buttonObject.transform.SetParent(uiCanvas.transform, false);
+            buttonObject.GetComponent<Button>().onClick.AddListener(() => Debug.Log(action.name));
         }
     }
 
-    public void onActionButtonClicked() {
+    public void onActionButtonClicked() 
+    {
         Debug.Log("Clicked");
     }
 
-    public void setActiveUnit(UnitModel unit) {
+    public void setActiveUnit(UnitModel unit) 
+    {
         Debug.Log("Active unit: " + unit.name);
         displayUnitActions(unit.actions);
+        unit.Clicked += (() => Debug.Log("Clicked id:" + ())
+        //TODO going to have to rework this
     }
 }
