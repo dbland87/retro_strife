@@ -72,7 +72,7 @@ public class UnitsRepository : MonoBehaviour
             );
 
         UnitModel enemyUnit2 = new UnitModel();
-        enemyUnit2.id = 3;
+        enemyUnit2.id = 4;
         enemyUnit2.name = "Starfox";
         enemyUnit2.level = 3;
         enemyUnit2.hp = 100;

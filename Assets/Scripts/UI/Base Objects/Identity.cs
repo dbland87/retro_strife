@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Identity : MonoBehaviour
 {
-    public int unitId = 1;
+    public int unitId { get; set; }
     // Start is called before the first frame update
     void Start()
     {

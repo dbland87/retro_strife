@@ -9,7 +9,7 @@ public class UnitPresenter : MonoBehaviour
     public GameObject dwarfLordPrefab;
     public GameObject dwarfWarriorPrefab;
     public GameObject zombieWarriorPrefab;
-
+    public Dictionary<string, GameObject> spawnedUnits = new Dictionary<string, GameObject>();
     public GameObject actionButton;
     public GameObject uiCanvas;
     // Start is called before the first frame update
@@ -33,22 +33,30 @@ public class UnitPresenter : MonoBehaviour
 
         if (Enum.TryParse(name, out _name))
         {
+            //TODO
             switch(_name)
             {
                 case UNIT_NAME.DWARF_HUNTER:
-                    Instantiate(dwarfHunterPrefab, position, Quaternion.identity);
+                    spawnUnit(dwarfHunterPrefab, position, name);
                     break;
                 case UNIT_NAME.DWARF_LORD:
-                    Instantiate(dwarfLordPrefab, position, Quaternion.identity);
+                    spawnUnit(dwarfLordPrefab, position, name);
                     break;
                 case UNIT_NAME.DWARF_WARRIOR:
-                    Instantiate(dwarfWarriorPrefab, position, Quaternion.identity);
+                    spawnUnit(dwarfWarriorPrefab, position, name);
                     break;
                 case UNIT_NAME.ZOMBIE_WARRIOR:
-                    Instantiate(zombieWarriorPrefab, position, Quaternion.identity);
+                    spawnUnit(zombieWarriorPrefab, position, name);
                     break;
             }
         }
+    }
+
+    private void spawnUnit(GameObject prefab, Vector2 position, string name) 
+    {
+        GameObject unit = Instantiate(prefab, position, Quaternion.identity);
+        spawnedUnits[name] = unit;
+        unit.GetComponent<BaseUnit>().Clicked += (e) => onUnitClicked(e);
     }
 
     private void displayUnitActions(List<UnitAction> actions) {
@@ -62,6 +70,11 @@ public class UnitPresenter : MonoBehaviour
         }
     }
 
+    private void onUnitClicked(int id) 
+    {
+        Debug.Log("Clicked: " + id);
+    }
+
     public void onActionButtonClicked() 
     {
         Debug.Log("Clicked");
@@ -71,7 +84,5 @@ public class UnitPresenter : MonoBehaviour
     {
         Debug.Log("Active unit: " + unit.name);
         displayUnitActions(unit.actions);
-        unit.Clicked += (() => Debug.Log("Clicked id:" + ())
-        //TODO going to have to rework this
     }
 }

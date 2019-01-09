@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2077395835384742180}
   - component: {fileID: 2077395835384742179}
+  - component: {fileID: 5586246763562379262}
+  - component: {fileID: 8611273250556417476}
+  - component: {fileID: 3980889512065901764}
   m_Layer: 0
   m_Name: dwarf_warrior_pf
   m_TagString: Untagged
@@ -79,3 +82,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &5586246763562379262
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077395835384742178}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.36751795, y: -0.46459723}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.92, y: 4.31}
+    newSize: {x: 4.92, y: 4.31}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.5484715, y: 3.3808055}
+  m_EdgeRadius: 0
+--- !u!114 &8611273250556417476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077395835384742178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa88b5991800f843a544a0ffaf6f196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3980889512065901764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077395835384742178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3231106646d28d4b866e81f83bead9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitId: 1

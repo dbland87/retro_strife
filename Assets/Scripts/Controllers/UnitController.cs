@@ -108,7 +108,6 @@ public class UnitController
 
     public UnitModel getNextReadyUnit() 
     {
-        Debug.Log("getNextReadyUnit");
         List<UnitModel> allUnits = getAllUnits();
 
         while(allUnits.FindAll(it => it.state.initiative >= GAIN_READY_STATE_THRESHOLD).Count < 1) 

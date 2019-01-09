@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class BaseUnit : MonoBehaviour, IPointerDownHandler, IPointerClickHandler,
     IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler
 {
-    // public event Action<string> Click;
     public event Action<int> Clicked;
     public event Action<int> Press;
     public event Action<int> Release;
@@ -15,27 +14,27 @@ public class BaseUnit : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Clicked(1);
+        Clicked(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().unitId);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Press(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().id);
+        // Press(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().unitId);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Release(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().id);
+        // Release(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().unitId);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        PointerEnter(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().id);   
+        // PointerEnter(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().unitId);   
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        PointerExit(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().id);
+        // PointerExit(eventData.pointerCurrentRaycast.gameObject.GetComponent<Identity>().unitId);
     }
 
 }
