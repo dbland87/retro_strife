@@ -7,19 +7,18 @@ public class UnitController
     private int PLAYER_POSITIONS_START = 0;
     private int ENEMY_POSITIONS_START = 3;
     private int GAIN_READY_STATE_THRESHOLD = 10;
+    private UnitIdGenerator idGenerator;
     PositionFinder positionFinder { get; set; }
     UnitPresenter unitPresenter { get; set; }
     GameObject unitsObject;
     List<UnitModel> playerUnits;
     List<UnitModel> enemyUnits;
+    List<UnitModel> allUnits;
 
     public UnitController() 
     {
-        unitsObject = GameObject.Find("Units");
-        unitPresenter = unitsObject.GetComponent<UnitPresenter>();
-        playerUnits = unitsObject.GetComponent<UnitsRepository>().playerUnits;
-        enemyUnits = unitsObject.GetComponent<UnitsRepository>().enemyUnits;
-        positionFinder = GameObject.Find("PositionFinder").GetComponent<PositionFinder>();
+        initUnitLists();
+        initUtilities();
     }
 
     public void initialize() 
@@ -27,7 +26,24 @@ public class UnitController
         spawnUnits();
     }
 
-    public void onRoundStart() 
+    private void initUnitLists() 
+    {
+        unitsObject = GameObject.Find("Units");
+        unitPresenter = unitsObject.GetComponent<UnitPresenter>();
+        playerUnits = unitsObject.GetComponent<UnitsRepository>().playerUnits;
+        enemyUnits = unitsObject.GetComponent<UnitsRepository>().enemyUnits;
+        allUnits = new List<UnitModel>();
+        allUnits.AddRange(playerUnits);
+        allUnits.AddRange(enemyUnits);
+    }
+
+    private void initUtilities()
+    {
+        positionFinder = GameObject.Find("PositionFinder").GetComponent<PositionFinder>();
+        idGenerator = new UnitIdGenerator();
+    }
+
+    public void setNextReadyUnitActive() 
     {
         UnitModel activeUnit = getNextReadyUnit();
         unitPresenter.setActiveUnit(activeUnit);
@@ -37,49 +53,30 @@ public class UnitController
     {
         if (playerUnits != null && playerUnits.Count > 0)
         {
-            int position = PLAYER_POSITIONS_START;
+            int positionId = PLAYER_POSITIONS_START;
             foreach (var unit in playerUnits)
             {
-                spawnUnitPrefab(unit, position);
-                position++;
+                unit.instanceId = idGenerator.getNewId();
+                spawnUnit(unit, positionId);
+                positionId++;
             }
         }
 
         if (enemyUnits != null && enemyUnits.Count > 0)
         {
-            int position = ENEMY_POSITIONS_START;
+            int positionId = ENEMY_POSITIONS_START;
             foreach (var unit in enemyUnits)
             {
-                spawnUnitPrefab(unit, position);
-                position++;
+                unit.instanceId = idGenerator.getNewId();
+                spawnUnit(unit, positionId);
+                positionId++;
             }
         }
     }
 
-    private void spawnUnitPrefab(UnitModel unit, int position)
+    private void spawnUnit(UnitModel unit, int positionId)
     {
-        string unitName = Enum.GetName(typeof(UNIT_NAME), unit.id);
-        switch(position)
-        {
-            case 0: 
-            unitPresenter.createPrefab(unitName, positionFinder.firstPosition);
-            break;
-            case 1: 
-            unitPresenter.createPrefab(unitName, positionFinder.secondPosition);
-            break;
-            case 2: 
-            unitPresenter.createPrefab(unitName, positionFinder.thirdPosition);
-            break;
-            case 3: 
-            unitPresenter.createPrefab(unitName, positionFinder.fourthPosition);
-            break;
-            case 4: 
-            unitPresenter.createPrefab(unitName, positionFinder.fifthPosition);
-            break;
-            case 5: 
-            unitPresenter.createPrefab(unitName, positionFinder.sixthPosition);
-            break;
-        }
+        unitPresenter.instantiateUnit(unit, positionFinder.getVector2FromPositionId(positionId));
     }
 
     private void incrementInitiative(List<UnitModel> units) {
@@ -102,6 +99,7 @@ public class UnitController
         } 
         else 
         {
+            Debug.Log("Could not find unit with id: " + id);
             return null;
         }
     }

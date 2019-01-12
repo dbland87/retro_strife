@@ -5,58 +5,29 @@ using UnityEngine.UI;
 
 public class UnitPresenter : MonoBehaviour
 {
-    public GameObject dwarfHunterPrefab;
-    public GameObject dwarfLordPrefab;
-    public GameObject dwarfWarriorPrefab;
-    public GameObject zombieWarriorPrefab;
-    public Dictionary<string, GameObject> spawnedUnits = new Dictionary<string, GameObject>();
+
+    private UnitMap unitMap;
     public GameObject actionButton;
     public GameObject uiCanvas;
-    // Start is called before the first frame update
-    void awake() {
-        
-    }
-    void Start()
+
+    private void initUnitMap() 
     {
-        
+        unitMap = GameObject.Find("Units").GetComponent<UnitMap>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void instantiateUnit(UnitModel unit, Vector2 position)
     {
-        
-    }
-
-    public void createPrefab(string name, Vector2 position)
-    {
-        UNIT_NAME _name;
-
-        if (Enum.TryParse(name, out _name))
-        {
-            //TODO
-            switch(_name)
-            {
-                case UNIT_NAME.DWARF_HUNTER:
-                    spawnUnit(dwarfHunterPrefab, position, name);
-                    break;
-                case UNIT_NAME.DWARF_LORD:
-                    spawnUnit(dwarfLordPrefab, position, name);
-                    break;
-                case UNIT_NAME.DWARF_WARRIOR:
-                    spawnUnit(dwarfWarriorPrefab, position, name);
-                    break;
-                case UNIT_NAME.ZOMBIE_WARRIOR:
-                    spawnUnit(zombieWarriorPrefab, position, name);
-                    break;
-            }
+        if (unitMap == null) {
+            initUnitMap();
         }
-    }
-
-    private void spawnUnit(GameObject prefab, Vector2 position, string name) 
-    {
-        GameObject unit = Instantiate(prefab, position, Quaternion.identity);
-        spawnedUnits[name] = unit;
-        unit.GetComponent<BaseUnit>().Clicked += (e) => onUnitClicked(e);
+        
+        GameObject instance = Instantiate(unitMap.getPrefabFromId(unit.prefabId), position, Quaternion.identity);
+        instance.GetComponent<Unit>().id = unit.instanceId;
+        instance.GetComponent<ClickableUnit>().Clicked += (e) => onUnitClicked(e);
+        instance.GetComponent<ClickableUnit>().Press += (e) => onUnitPressed(e);
+        instance.GetComponent<ClickableUnit>().Release += (e) => onUnitReleased(e);
+        instance.GetComponent<ClickableUnit>().PointerEnter += (e) => onUnitPointerEnter(e);
+        instance.GetComponent<ClickableUnit>().PointerExit += (e) => onUnitPointerExit(e);
     }
 
     private void displayUnitActions(List<UnitAction> actions) {
@@ -70,9 +41,29 @@ public class UnitPresenter : MonoBehaviour
         }
     }
 
-    private void onUnitClicked(int id) 
+    private void onUnitClicked(Unit unit) 
     {
-        Debug.Log("Clicked: " + id);
+        Debug.Log("Clicked: " + unit.id);
+    }
+
+        private void onUnitPressed(Unit unit) 
+    {
+        //TODO
+    }
+
+        private void onUnitReleased(Unit unit) 
+    {
+        //TODO
+    }
+
+        private void onUnitPointerEnter(Unit unit) 
+    {
+        //TODO
+    }
+
+        private void onUnitPointerExit(Unit unit) 
+    {
+        //TODO
     }
 
     public void onActionButtonClicked() 

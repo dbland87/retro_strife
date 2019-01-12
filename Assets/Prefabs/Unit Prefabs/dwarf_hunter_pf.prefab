@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1452265486}
   - component: {fileID: 1452265485}
-  - component: {fileID: 4886150126807962597}
   - component: {fileID: 3657491582777641567}
-  - component: {fileID: 2556176433215067781}
+  - component: {fileID: 6795262719908727170}
   m_Layer: 0
   m_Name: dwarf_hunter_pf
   m_TagString: Untagged
@@ -28,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452265482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.67, y: -1.56, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,18 +81,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4886150126807962597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1452265482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa88b5991800f843a544a0ffaf6f196, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &3657491582777641567
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -120,7 +107,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.4, y: 1.97}
   m_EdgeRadius: 0
---- !u!114 &2556176433215067781
+--- !u!114 &6795262719908727170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,6 +116,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1452265482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3231106646d28d4b866e81f83bead9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1815e835216188c46aa4366549971340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

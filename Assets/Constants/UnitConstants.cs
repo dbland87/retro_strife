@@ -14,7 +14,7 @@ public enum ELEMENT_TYPE
     POISON = 7
 }
 
-public enum UNIT_NAME
+public enum UNIT_ID
 {
     DWARF_HUNTER = 0,
     DWARF_LORD = 1,

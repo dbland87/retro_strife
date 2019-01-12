@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 6167047471282656326}
   - component: {fileID: 6167047471282656329}
   - component: {fileID: 1173987128415660061}
-  - component: {fileID: 6565324130825692906}
-  - component: {fileID: 7375096771453760232}
+  - component: {fileID: 6859615639545837521}
   m_Layer: 0
   m_Name: dwarf_lord_pf
   m_TagString: Untagged
@@ -28,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6167047471282656328}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.35, y: 0.63, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.938475, y: 0.938475, z: 0.938475}
   m_Children: []
   m_Father: {fileID: 0}
@@ -108,7 +107,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.3424067, y: 1.604492}
   m_EdgeRadius: 0
---- !u!114 &6565324130825692906
+--- !u!114 &6859615639545837521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,19 +116,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6167047471282656328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa88b5991800f843a544a0ffaf6f196, type: 3}
+  m_Script: {fileID: 11500000, guid: 1815e835216188c46aa4366549971340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7375096771453760232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6167047471282656328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3231106646d28d4b866e81f83bead9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitId: 1

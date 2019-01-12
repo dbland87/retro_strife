@@ -79,7 +79,7 @@ public class EncounterController
     private void onRoundStart()
     {
         Debug.Log("onRoundStart()");
-        unitController.onRoundStart();
+        unitController.setNextReadyUnitActive();
 
     }
 

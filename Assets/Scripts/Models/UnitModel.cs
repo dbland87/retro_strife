@@ -11,6 +11,8 @@ public class UnitModel
     }
     
     public int id { get; set; }
+    public int prefabId { get; set; }
+    public string instanceId { get; set; }
     public string name { get; set; }
     public int level { get; set; }
     public int hp { get; set; }
