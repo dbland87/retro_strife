@@ -9,8 +9,6 @@ public class EncounterController
     MainUIViewPresenter mainUI { get; set; }
     PositionFinder positionFinder { get; set; }
     UnitController unitController { get; set; }
-    List<UnitModel> playerUnitsList;
-    List<UnitModel> enemyUnitsList;
 
     public EncounterController()
     {
@@ -31,6 +29,19 @@ public class EncounterController
 
         unitController.initialize();
         turnModel.initialize();
+
+        initEvents();
+    }
+
+    private void initEvents() 
+    {
+        unitController.TurnCompleted += (e) => onTurnCompleted(e);
+    }
+
+    private void onTurnCompleted(UnitTurnModel completedTurn) 
+    {
+        Debug.Log("Turn completed.\nAction: " + completedTurn.actions[0].name + "\nTarget: " + completedTurn.targets[0].name);
+        //TODO the actions and targets have been passed to the EncounterController. Need to resolve events in the models and trigger UI.
     }
 
     private void onEncounterTurnStateChanged(EncounterTurnModel.EncounterState state)

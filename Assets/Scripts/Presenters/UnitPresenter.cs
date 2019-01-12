@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class UnitPresenter : MonoBehaviour
 {
-
     private UnitMap unitMap;
     public GameObject actionButton;
     public GameObject uiCanvas;
+    public event Action<Unit> UnitClicked;
+    public event Action<UnitAction> ActionClicked;
 
     private void initUnitMap() 
     {
@@ -35,40 +36,39 @@ public class UnitPresenter : MonoBehaviour
             uiCanvas = GameObject.Find("UICanvas");
         }
         foreach (var action in actions) {
-            GameObject buttonObject = Instantiate(actionButton);            
+            GameObject buttonObject = Instantiate(actionButton);
             buttonObject.transform.SetParent(uiCanvas.transform, false);
-            buttonObject.GetComponent<Button>().onClick.AddListener(() => Debug.Log(action.name));
+            buttonObject.GetComponent<Button>().onClick.AddListener(() => onActionButtonClicked(action));
         }
     }
 
     private void onUnitClicked(Unit unit) 
     {
-        Debug.Log("Clicked: " + unit.id);
+        UnitClicked(unit);
     }
 
-        private void onUnitPressed(Unit unit) 
+    public void onActionButtonClicked(UnitAction action) 
+    {
+        ActionClicked(action);
+    }
+    private void onUnitPressed(Unit unit) 
     {
         //TODO
     }
 
-        private void onUnitReleased(Unit unit) 
+    private void onUnitReleased(Unit unit) 
     {
         //TODO
     }
 
-        private void onUnitPointerEnter(Unit unit) 
+    private void onUnitPointerEnter(Unit unit) 
     {
         //TODO
     }
 
-        private void onUnitPointerExit(Unit unit) 
+    private void onUnitPointerExit(Unit unit) 
     {
         //TODO
-    }
-
-    public void onActionButtonClicked() 
-    {
-        Debug.Log("Clicked");
     }
 
     public void setActiveUnit(UnitModel unit) 

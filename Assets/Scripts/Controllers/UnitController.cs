@@ -8,6 +8,7 @@ public class UnitController
     private int ENEMY_POSITIONS_START = 3;
     private int GAIN_READY_STATE_THRESHOLD = 10;
     private UnitIdGenerator idGenerator;
+    private UnitTurnModel currentUnitTurn;
     PositionFinder positionFinder { get; set; }
     UnitPresenter unitPresenter { get; set; }
     GameObject unitsObject;
@@ -15,10 +16,13 @@ public class UnitController
     List<UnitModel> enemyUnits;
     List<UnitModel> allUnits;
 
+    public event Action<UnitTurnModel> TurnCompleted;
+
     public UnitController() 
     {
         initUnitLists();
         initUtilities();
+        initEvents();
     }
 
     public void initialize() 
@@ -43,10 +47,10 @@ public class UnitController
         idGenerator = new UnitIdGenerator();
     }
 
-    public void setNextReadyUnitActive() 
+    private void initEvents() 
     {
-        UnitModel activeUnit = getNextReadyUnit();
-        unitPresenter.setActiveUnit(activeUnit);
+        unitPresenter.UnitClicked += (e) => onUnitClicked(e);
+        unitPresenter.ActionClicked += (e) => onActionClicked(e);
     }
 
     private void spawnUnits()
@@ -90,6 +94,39 @@ public class UnitController
         allUnits.AddRange(playerUnits);
         allUnits.AddRange(enemyUnits);
         return allUnits;
+    }
+
+    private void setNewTurn() 
+    {
+        if (currentUnitTurn != null) 
+        {
+            currentUnitTurn = null;
+        }
+        currentUnitTurn = new UnitTurnModel();
+    }
+
+    private void onUnitClicked(Unit unit)
+    {
+        currentUnitTurn.addTarget(unit);
+        if(currentUnitTurn.isComplete()) 
+        {
+            TurnCompleted(currentUnitTurn);
+        }
+    }
+
+    private void onActionClicked(UnitAction action)
+    {
+        currentUnitTurn.addAction(action);
+        if(currentUnitTurn.isComplete()) 
+        {
+            TurnCompleted(currentUnitTurn);
+        }
+    }
+
+    public void setNextReadyUnitActive() 
+    {
+        setNewTurn();
+        unitPresenter.setActiveUnit(getNextReadyUnit());
     }
 
     public UnitModel findUnitById(int id) {
