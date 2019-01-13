@@ -11,11 +11,7 @@ public class UnitController
     private UnitTurnModel currentUnitTurn;
     PositionFinder positionFinder { get; set; }
     UnitPresenter unitPresenter { get; set; }
-    GameObject unitsObject;
-    List<UnitModel> playerUnits;
-    List<UnitModel> enemyUnits;
-    List<UnitModel> allUnits;
-
+    UnitsRepository unitsRepository;
     public event Action<UnitTurnModel> TurnCompleted;
 
     public UnitController() 
@@ -32,13 +28,9 @@ public class UnitController
 
     private void initUnitLists() 
     {
-        unitsObject = GameObject.Find("Units");
-        unitPresenter = unitsObject.GetComponent<UnitPresenter>();
-        playerUnits = unitsObject.GetComponent<UnitsRepository>().playerUnits;
-        enemyUnits = unitsObject.GetComponent<UnitsRepository>().enemyUnits;
-        allUnits = new List<UnitModel>();
-        allUnits.AddRange(playerUnits);
-        allUnits.AddRange(enemyUnits);
+        unitsRepository = GameObject.Find("Units").GetComponent<UnitsRepository>();
+        unitsRepository.initialize();
+        unitPresenter = GameObject.Find("Units").GetComponent<UnitPresenter>();
     }
 
     private void initUtilities()
@@ -55,10 +47,10 @@ public class UnitController
 
     private void spawnUnits()
     {
-        if (playerUnits != null && playerUnits.Count > 0)
+        if (unitsRepository.playerUnits != null && unitsRepository.playerUnits.Count > 0)
         {
             int positionId = PLAYER_POSITIONS_START;
-            foreach (var unit in playerUnits)
+            foreach (var unit in unitsRepository.playerUnits)
             {
                 unit.instanceId = idGenerator.getNewId();
                 spawnUnit(unit, positionId);
@@ -66,10 +58,10 @@ public class UnitController
             }
         }
 
-        if (enemyUnits != null && enemyUnits.Count > 0)
+        if (unitsRepository.enemyUnits != null && unitsRepository.enemyUnits.Count > 0)
         {
             int positionId = ENEMY_POSITIONS_START;
-            foreach (var unit in enemyUnits)
+            foreach (var unit in unitsRepository.enemyUnits)
             {
                 unit.instanceId = idGenerator.getNewId();
                 spawnUnit(unit, positionId);
@@ -81,6 +73,18 @@ public class UnitController
     private void spawnUnit(UnitModel unit, int positionId)
     {
         unitPresenter.instantiateUnit(unit, positionFinder.getVector2FromPositionId(positionId));
+        unit.UnitStateChange += (newState, instanceId) => onUnitStateChanged(newState, instanceId);
+        unit.UnitDeath += (instanceId) => onUnitDeath(instanceId);
+    }
+
+    private void onUnitStateChanged(UnitState newState, string instanceId)
+    {
+        unitPresenter.displayNewUnitState(newState, instanceId);
+    }
+
+    private void onUnitDeath(string instanceId)
+    {
+        unitPresenter.displayUnitDeath(instanceId);
     }
 
     private void incrementInitiative(List<UnitModel> units) {
@@ -88,14 +92,6 @@ public class UnitController
             unit.state.initiative += unit.resolvedSpeed();
         }
     }
-
-    private List<UnitModel> getAllUnits() {
-        List<UnitModel> allUnits = new List<UnitModel>();
-        allUnits.AddRange(playerUnits);
-        allUnits.AddRange(enemyUnits);
-        return allUnits;
-    }
-
     private void setNewTurn() 
     {
         if (currentUnitTurn != null) 
@@ -107,20 +103,32 @@ public class UnitController
 
     private void onUnitClicked(Unit unit)
     {
-        currentUnitTurn.addTarget(unit);
+        Debug.Log("Target: " + unitsRepository.getUnitModelById(unit.id).name + "\nCurrent health: " + unitsRepository.getUnitModelById(unit.id).state.hp);
+        currentUnitTurn.setTarget(unit);
         if(currentUnitTurn.isComplete()) 
         {
+            resolveActions(currentUnitTurn);
             TurnCompleted(currentUnitTurn);
         }
     }
 
     private void onActionClicked(UnitAction action)
     {
-        currentUnitTurn.addAction(action);
+        currentUnitTurn.setAction(action);
         if(currentUnitTurn.isComplete()) 
         {
+            resolveActions(currentUnitTurn);
             TurnCompleted(currentUnitTurn);
         }
+    }
+
+    private void resolveActions(UnitTurnModel unitTurn) 
+    {
+        foreach(var unit in unitTurn.targets)
+        {
+            ActionResolver.resolve(unitTurn.actions, unitsRepository.getUnitModelById(unit.id));
+        }
+        setNewTurn();
     }
 
     public void setNextReadyUnitActive() 
@@ -130,9 +138,9 @@ public class UnitController
     }
 
     public UnitModel findUnitById(int id) {
-        if ( getAllUnits().Exists(it => it.id == id)) 
+        if ( unitsRepository.allUnits.Exists(it => it.id == id)) 
         {
-            return getAllUnits().Find(it => it.id == id);
+            return unitsRepository.allUnits.Find(it => it.id == id);
         } 
         else 
         {
@@ -143,26 +151,23 @@ public class UnitController
 
     public UnitModel getNextReadyUnit() 
     {
-        List<UnitModel> allUnits = getAllUnits();
 
-        while(allUnits.FindAll(it => it.state.initiative >= GAIN_READY_STATE_THRESHOLD).Count < 1) 
+        while(unitsRepository.allUnits.FindAll(it => it.state.initiative >= GAIN_READY_STATE_THRESHOLD).Count < 1) 
         {
-            incrementInitiative(allUnits);
-            allUnits.Sort((x, y) => y.state.initiative.CompareTo(x.state.initiative));
+            incrementInitiative(unitsRepository.allUnits);
+            unitsRepository.allUnits.Sort((x, y) => y.state.initiative.CompareTo(x.state.initiative));
         }
 
-        int max = allUnits[0].state.initiative;
-        if (allUnits.FindAll(it => it.state.initiative == max).Count == 1) {
-            allUnits[0].state.initiative =- GAIN_READY_STATE_THRESHOLD;
-            return allUnits[0];
+        int max = unitsRepository.allUnits[0].state.initiative;
+        if (unitsRepository.allUnits.FindAll(it => it.state.initiative == max).Count == 1) {
+            unitsRepository.allUnits[0].state.initiative =- GAIN_READY_STATE_THRESHOLD;
+            return unitsRepository.allUnits[0];
         } else {
             System.Random rnd = new System.Random();
             int tiebreaker = rnd.Next(
-                allUnits.FindAll(it=>it.state.initiative == max).Count);
-            allUnits[tiebreaker].state.initiative =- GAIN_READY_STATE_THRESHOLD;
-            return allUnits[tiebreaker];
+                unitsRepository.allUnits.FindAll(it=>it.state.initiative == max).Count);
+            unitsRepository.allUnits[tiebreaker].state.initiative =- GAIN_READY_STATE_THRESHOLD;
+            return unitsRepository.allUnits[tiebreaker];
         }
     }
-
-
 }

@@ -17,8 +17,20 @@ public class UnitTurnModel
         targets.Add(target);
     }
 
+    public void setTarget(Unit target)
+    {
+        targets.Clear();
+        targets.Add(target);
+    }
+
     public void addAction(UnitAction action) 
     {
+        actions.Add(action);
+    }
+
+    public void setAction(UnitAction action)
+    {
+        actions.Clear();
         actions.Add(action);
     }
 

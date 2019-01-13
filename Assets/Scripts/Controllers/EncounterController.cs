@@ -40,8 +40,7 @@ public class EncounterController
 
     private void onTurnCompleted(UnitTurnModel completedTurn) 
     {
-        Debug.Log("Turn completed.\nAction: " + completedTurn.actions[0].name + "\nTarget: " + completedTurn.targets[0].name);
-        //TODO the actions and targets have been passed to the EncounterController. Need to resolve events in the models and trigger UI.
+        
     }
 
     private void onEncounterTurnStateChanged(EncounterTurnModel.EncounterState state)

@@ -7,20 +7,38 @@ public class UnitsRepository : MonoBehaviour
 
     public List<UnitModel> playerUnits = new List<UnitModel>();
     public List<UnitModel> enemyUnits = new List<UnitModel>();
+    public List<UnitModel> allUnits = new List<UnitModel>();
 
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-        initTempUnits();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void initialize() 
     {
-        
+        initTempUnits();
+        initUnitLists();
     }
 
+    private void initUnitLists() 
+    {
+        allUnits = new List<UnitModel>();
+        allUnits.AddRange(playerUnits);
+        allUnits.AddRange(enemyUnits);
+    }
+
+    public UnitModel getUnitModelById(string id)
+    {
+        if (allUnits.Exists(it => it.instanceId == id))
+        {
+            return allUnits.Find(it => it.instanceId == id);
+        }
+        Debug.Log("Can't find the unit by the specified id: " + id);
+        return null;
+    }
+
+    //TEMP stuff
     private void initTempUnits()
     {
         UnitModel playerUnit1 = new UnitModel();
@@ -35,6 +53,7 @@ public class UnitsRepository : MonoBehaviour
         playerUnit1.actions.Add(
             new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
             );
+        playerUnit1.initState();
 
         UnitModel playerUnit2 = new UnitModel();
         playerUnit2.id = 1;
@@ -48,6 +67,7 @@ public class UnitsRepository : MonoBehaviour
         playerUnit2.actions.Add(
             new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
             );
+        playerUnit2.initState();
 
         UnitModel playerUnit3 = new UnitModel();
         playerUnit3.id = 2;
@@ -61,6 +81,7 @@ public class UnitsRepository : MonoBehaviour
         playerUnit3.actions.Add(
             new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
             );
+        playerUnit3.initState();
 
         UnitModel enemyUnit1 = new UnitModel();
         enemyUnit1.id = 3;
@@ -74,6 +95,7 @@ public class UnitsRepository : MonoBehaviour
         enemyUnit1.actions.Add(
             new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
             );
+        enemyUnit1.initState();
 
         UnitModel enemyUnit2 = new UnitModel();
         enemyUnit2.id = 4;
@@ -87,6 +109,7 @@ public class UnitsRepository : MonoBehaviour
         enemyUnit2.actions.Add(
             new UnitAction(1, -1, "AutoAttack", 10, UnitAction.ActionType.PHYSICAL_ATTACK)
             );
+        enemyUnit2.initState();
 
         playerUnits.Add(playerUnit1);
         playerUnits.Add(playerUnit2);

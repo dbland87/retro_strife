@@ -31,6 +31,16 @@ public class UnitPresenter : MonoBehaviour
         instance.GetComponent<ClickableUnit>().PointerExit += (e) => onUnitPointerExit(e);
     }
 
+    public void displayNewUnitState(UnitState newState, string instanceId)
+    {
+        Debug.Log("Unit with id: " + instanceId + " now has a health pool of: " + newState.hp);
+    }
+
+    public void displayUnitDeath(string instanceId)
+    {
+        Debug.Log("Unit with id: " + instanceId + " died");
+    }
+
     private void displayUnitActions(List<UnitAction> actions) {
         if (uiCanvas == null) {
             uiCanvas = GameObject.Find("UICanvas");
