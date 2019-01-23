@@ -13,14 +13,10 @@ public class EncounterTurnModel
     public enum EncounterState
     {
         ROUND_START,
-        PLAYER_BEGIN,
-        PLAYER_MAIN,
-        PLAYER_COMBAT,
-        PLAYER_END,
-        ENEMY_BEGIN,
-        ENEMY_MAIN,
-        ENEMY_COMBAT,
-        ENEMY_END,
+        BEGIN,
+        MAIN,
+        COMBAT,
+        END,
         ROUND_END,
         VICTORY,
         DEFEAT
@@ -43,29 +39,17 @@ public class EncounterTurnModel
             case EncounterState.ROUND_START:
                 onRoundStart();
                 break;
-            case EncounterState.PLAYER_BEGIN:
-                onPlayerBegin();
+            case EncounterState.BEGIN:
+                onBegin();
                 break;
-            case EncounterState.PLAYER_MAIN:
-                onPlayerMain();
+            case EncounterState.MAIN:
+                onMain();
                 break;
-            case EncounterState.PLAYER_COMBAT:
-                onPlayerCombat();
+            case EncounterState.COMBAT:
+                onCombat();
                 break;
-            case EncounterState.PLAYER_END:
-                onPlayerEnd();
-                break;
-            case EncounterState.ENEMY_BEGIN:
-                onEnemyBegin();
-                break;
-            case EncounterState.ENEMY_MAIN:
-                onEnemyMain();
-                break;
-            case EncounterState.ENEMY_COMBAT:
-                onEnemyCombat();
-                break;
-            case EncounterState.ENEMY_END:
-                onEnemyEnd();
+            case EncounterState.END:
+                onEnd();
                 break;
             case EncounterState.ROUND_END:
                 onRoundEnd();
@@ -84,34 +68,22 @@ public class EncounterTurnModel
         switch (currentState)
         {
             case EncounterState.ROUND_START:
-                onPlayerBegin();
+                onBegin();
                 break;
-            case EncounterState.PLAYER_BEGIN:
-                onPlayerMain(); ;
+            case EncounterState.BEGIN:
+                onMain(); ;
                 break;
-            case EncounterState.PLAYER_MAIN:
-                onPlayerCombat();
+            case EncounterState.MAIN:
+                onCombat();
                 break;
-            case EncounterState.PLAYER_COMBAT:
-                onPlayerEnd();
+            case EncounterState.COMBAT:
+                onEnd();
                 break;
-            case EncounterState.PLAYER_END:
-                onEnemyBegin();
-                break;
-            case EncounterState.ENEMY_BEGIN:
-                onEnemyMain();
-                break;
-            case EncounterState.ENEMY_MAIN:
-                onEnemyCombat();
-                break;
-            case EncounterState.ENEMY_COMBAT:
-                onEnemyEnd();
-                break;
-            case EncounterState.ENEMY_END:
+            case EncounterState.END:
                 onRoundEnd();
                 break;
             case EncounterState.ROUND_END:
-                onVictory();
+                onRoundStart();
                 break;
             case EncounterState.VICTORY:
                 //TODO
@@ -130,51 +102,27 @@ public class EncounterTurnModel
         EncounterStateChanged(this, currentState);
     }
 
-    private void onPlayerBegin()
+    private void onBegin()
     {
-        currentState = EncounterState.PLAYER_BEGIN;
+        currentState = EncounterState.BEGIN;
         EncounterStateChanged(this, currentState);
     }
 
-    private void onPlayerMain()
+    private void onMain()
     {
-        currentState = EncounterState.PLAYER_MAIN;
+        currentState = EncounterState.MAIN;
         EncounterStateChanged(this, currentState);
     }
 
-    private void onPlayerCombat()
+    private void onCombat()
     {
-        currentState = EncounterState.PLAYER_COMBAT;
+        currentState = EncounterState.COMBAT;
         EncounterStateChanged(this, currentState);
     }
 
-    private void onPlayerEnd()
+    private void onEnd()
     {
-        currentState = EncounterState.PLAYER_END;
-        EncounterStateChanged(this, currentState);
-    }
-
-    private void onEnemyBegin()
-    {
-        currentState = EncounterState.ENEMY_BEGIN;
-        EncounterStateChanged(this, currentState);
-    }
-
-    private void onEnemyMain()
-    {
-        currentState = EncounterState.ENEMY_MAIN;
-        EncounterStateChanged(this, currentState);
-    }
-
-    private void onEnemyCombat()
-    {
-        currentState = EncounterState.ENEMY_COMBAT;
-        EncounterStateChanged(this, currentState);
-    }
-
-    private void onEnemyEnd()
-    {
-        currentState = EncounterState.ENEMY_END;
+        currentState = EncounterState.END;
         EncounterStateChanged(this, currentState);
     }
 

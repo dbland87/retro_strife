@@ -8,11 +8,13 @@ public class UnitController
     private int ENEMY_POSITIONS_START = 3;
     private int GAIN_READY_STATE_THRESHOLD = 10;
     private UnitIdGenerator idGenerator;
+    private UnitModel currentUnit;
     private UnitTurnModel currentUnitTurn;
     PositionFinder positionFinder { get; set; }
     UnitPresenter unitPresenter { get; set; }
     UnitsRepository unitsRepository;
-    public event Action<UnitTurnModel> TurnCompleted;
+    public event Action<UnitTurnModel> ActionsChosen;
+    public event Action TurnStateCompleted;
 
     public UnitController() 
     {
@@ -89,6 +91,7 @@ public class UnitController
 
     private void incrementInitiative(List<UnitModel> units) {
         foreach(var unit in units) {
+            Debug.Log("Incrementing " + unit.name);
             unit.state.initiative += unit.resolvedSpeed();
         }
     }
@@ -107,8 +110,8 @@ public class UnitController
         currentUnitTurn.setTarget(unit);
         if(currentUnitTurn.isComplete()) 
         {
-            resolveActions(currentUnitTurn);
-            TurnCompleted(currentUnitTurn);
+            ActionsChosen(currentUnitTurn);
+            TurnStateCompleted();
         }
     }
 
@@ -117,8 +120,8 @@ public class UnitController
         currentUnitTurn.setAction(action);
         if(currentUnitTurn.isComplete()) 
         {
-            resolveActions(currentUnitTurn);
-            TurnCompleted(currentUnitTurn);
+            ActionsChosen(currentUnitTurn);
+            TurnStateCompleted();
         }
     }
 
@@ -131,10 +134,19 @@ public class UnitController
         setNewTurn();
     }
 
-    public void setNextReadyUnitActive() 
+    private void resolveUpkeepEffects()
     {
-        setNewTurn();
-        unitPresenter.setActiveUnit(getNextReadyUnit());
+        Debug.Log("Resolving upkeep items");
+    }
+
+    private void resolveTurnEndEffects()
+    {
+         Debug.Log("Resolving turn end items");
+    }
+
+    private void resolveRoundEndEffects()
+    {
+         Debug.Log("Resolving round end items");
     }
 
     public UnitModel findUnitById(int id) {
@@ -151,23 +163,61 @@ public class UnitController
 
     public UnitModel getNextReadyUnit() 
     {
+        UnitModel readyUnit;
 
         while(unitsRepository.allUnits.FindAll(it => it.state.initiative >= GAIN_READY_STATE_THRESHOLD).Count < 1) 
         {
             incrementInitiative(unitsRepository.allUnits);
-            unitsRepository.allUnits.Sort((x, y) => y.state.initiative.CompareTo(x.state.initiative));
         }
-
+        unitsRepository.allUnits.Sort((x, y) => y.state.initiative.CompareTo(x.state.initiative));
         int max = unitsRepository.allUnits[0].state.initiative;
         if (unitsRepository.allUnits.FindAll(it => it.state.initiative == max).Count == 1) {
-            unitsRepository.allUnits[0].state.initiative =- GAIN_READY_STATE_THRESHOLD;
-            return unitsRepository.allUnits[0];
+            readyUnit = unitsRepository.allUnits[0];
+            readyUnit.state.initiative = readyUnit.state.initiative - GAIN_READY_STATE_THRESHOLD;
+           
         } else {
             System.Random rnd = new System.Random();
             int tiebreaker = rnd.Next(
                 unitsRepository.allUnits.FindAll(it=>it.state.initiative == max).Count);
-            unitsRepository.allUnits[tiebreaker].state.initiative =- GAIN_READY_STATE_THRESHOLD;
-            return unitsRepository.allUnits[tiebreaker];
+            readyUnit = unitsRepository.allUnits[tiebreaker];
+            readyUnit.state.initiative = readyUnit.state.initiative - GAIN_READY_STATE_THRESHOLD;
         }
+         return readyUnit;
+    }
+
+    public void setNextReadyUnitActive() 
+    {
+        setNewTurn();
+        currentUnit = getNextReadyUnit();
+        TurnStateCompleted();
+    }
+
+    public void onUnitTurnBegin() 
+    {
+         resolveUpkeepEffects();
+         TurnStateCompleted();
+    }
+
+    public void onUnitTurnMain()
+    {
+        unitPresenter.setActiveUnit(currentUnit);
+    }
+
+    public void onUnitTurnCombat()
+    {
+        resolveActions(currentUnitTurn);
+        TurnStateCompleted();
+    }
+
+    public void onUnitTurnEnd()
+    {
+        resolveTurnEndEffects();
+        TurnStateCompleted();
+    }
+
+    public void onRoundEnd()
+    {
+        resolveRoundEndEffects();
+        TurnStateCompleted();
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EncounterController
 {
     PlayerModel player { get; set; }
+    EncounterModel encounterModel { get; set; }
     EncounterTurnModel turnModel { get; set; }
     MainUIViewPresenter mainUI { get; set; }
     PositionFinder positionFinder { get; set; }
@@ -12,35 +13,35 @@ public class EncounterController
 
     public EncounterController()
     {
-        mainUI = CreateView("MainUI").GetComponent<MainUIViewPresenter>();
-
-        // Create models
-        turnModel = new EncounterTurnModel();
-        player = new PlayerModel();
-
-        // Wire up UI events
-        turnModel.EncounterStateChanged += (s, e) => onEncounterTurnStateChanged(e);
-
+  
     }
     public void initialize()
     {
+        mainUI = GameObject.Find("MainUI").GetComponent<MainUIViewPresenter>();
+        turnModel = new EncounterTurnModel();
+        encounterModel = new EncounterModel();
         positionFinder = GameObject.Find("PositionFinder").GetComponent<PositionFinder>();    
         unitController = new UnitController();
+
+        // This needs to happen before we init the turn model
+        initEvents();
 
         unitController.initialize();
         turnModel.initialize();
 
-        initEvents();
+        
     }
 
     private void initEvents() 
     {
-        unitController.TurnCompleted += (e) => onTurnCompleted(e);
+        turnModel.EncounterStateChanged += (s, e) => onEncounterTurnStateChanged(e);
+        unitController.TurnStateCompleted += () => turnModel.advanceEncounterState();
+        unitController.ActionsChosen += (e) => onActionsChosen(e);
     }
 
-    private void onTurnCompleted(UnitTurnModel completedTurn) 
+    private void onActionsChosen(UnitTurnModel chosenActions) 
     {
-        
+        encounterModel.saveTurn(chosenActions);
     }
 
     private void onEncounterTurnStateChanged(EncounterTurnModel.EncounterState state)
@@ -50,29 +51,17 @@ public class EncounterController
            case EncounterTurnModel.EncounterState.ROUND_START:
                 onRoundStart();
                 break;
-            case EncounterTurnModel.EncounterState.PLAYER_BEGIN:
-                onPlayerBegin();
+            case EncounterTurnModel.EncounterState.BEGIN:
+                onTurnBegin();
                 break;
-            case EncounterTurnModel.EncounterState.PLAYER_MAIN:
-                onPlayerMain();
+            case EncounterTurnModel.EncounterState.MAIN:
+                onTurnMain();
                 break;
-            case EncounterTurnModel.EncounterState.PLAYER_COMBAT:
-                onPlayerCombat();
+            case EncounterTurnModel.EncounterState.COMBAT:
+                onTurnCombat();
                 break;
-            case EncounterTurnModel.EncounterState.PLAYER_END:
-                onPlayerEnd();
-                break;
-            case EncounterTurnModel.EncounterState.ENEMY_BEGIN:
-                onEnemyBegin();
-                break;
-            case EncounterTurnModel.EncounterState.ENEMY_MAIN:
-                onEnemyMain();
-                break;
-            case EncounterTurnModel.EncounterState.ENEMY_COMBAT:
-                onEnemyCombat();
-                break;
-            case EncounterTurnModel.EncounterState.ENEMY_END:
-                onEnemyEnd();
+            case EncounterTurnModel.EncounterState.END:
+                onTurnEnd();
                 break;
             case EncounterTurnModel.EncounterState.ROUND_END:
                 onRoundEnd();
@@ -88,85 +77,42 @@ public class EncounterController
 
     private void onRoundStart()
     {
-        Debug.Log("onRoundStart()");
-        unitController.setNextReadyUnitActive();
-
+        unitController.setNextReadyUnitActive();    
     }
 
-    private void onPlayerBegin()
+    private void onTurnBegin()
     {
-        Debug.Log("onPlayerBegin()");
-
+        unitController.onUnitTurnBegin();
     }
 
-    private void onPlayerMain()
+    private void onTurnMain()
     {
-        Debug.Log("onPlayerMain()");
-
+        unitController.onUnitTurnMain();
     }
 
-    private void onPlayerCombat()
+    private void onTurnCombat()
     {
-        Debug.Log("onPlayerCombat()");
-
+        unitController.onUnitTurnCombat();
     }
 
-    private void onPlayerEnd()
+    private void onTurnEnd()
     {
-        Debug.Log("onPlayerEnd()");
-
-    }
-
-    private void onEnemyBegin()
-    {
-        Debug.Log("onEnemyBegin()");
-
-    }
-
-    private void onEnemyMain()
-    {
-        Debug.Log("onEnemyMain()");
-
-    }
-
-    private void onEnemyCombat()
-    {
-        Debug.Log("onEnemyCombat()");
-
-    }
-
-    private void onEnemyEnd()
-    {
-        Debug.Log("onEnemyEnd()");
-
+        unitController.onUnitTurnEnd();
     }
 
     private void onRoundEnd()
     {
-        Debug.Log("onRoundEnd()");
-
+        unitController.onRoundEnd();
     }
 
     private void onVictory()
     {
-        Debug.Log("onVictory()");
 
     }
 
     private void onDefeat()
     {
-        Debug.Log("onDefeat()");
 
-    }
-
-    private void onButtonClicked()
-    {
-        turnModel.advanceEncounterState();
-    }
-
-    GameObject CreateView(string viewName)
-    { 
-        return GameObject.Find(viewName);
     }
 }
 
