@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using RSCommonModels;
+using RSCombatEngine;
 
 public class UnitController
 {
@@ -88,13 +90,7 @@ public class UnitController
     {
         unitPresenter.displayUnitDeath(instanceId);
     }
-
-    private void incrementInitiative(List<UnitModel> units) {
-        foreach(var unit in units) {
-            Debug.Log("Incrementing " + unit.name);
-            unit.state.initiative += unit.resolvedSpeed();
-        }
-    }
+    
     private void setNewTurn() 
     {
         if (currentUnitTurn != null) 
@@ -161,34 +157,10 @@ public class UnitController
         }
     }
 
-    public UnitModel getNextReadyUnit() 
-    {
-        UnitModel readyUnit;
-
-        while(unitsRepository.allUnits.FindAll(it => it.state.initiative >= GAIN_READY_STATE_THRESHOLD).Count < 1) 
-        {
-            incrementInitiative(unitsRepository.allUnits);
-        }
-        unitsRepository.allUnits.Sort((x, y) => y.state.initiative.CompareTo(x.state.initiative));
-        int max = unitsRepository.allUnits[0].state.initiative;
-        if (unitsRepository.allUnits.FindAll(it => it.state.initiative == max).Count == 1) {
-            readyUnit = unitsRepository.allUnits[0];
-            readyUnit.state.initiative = readyUnit.state.initiative - GAIN_READY_STATE_THRESHOLD;
-           
-        } else {
-            System.Random rnd = new System.Random();
-            int tiebreaker = rnd.Next(
-                unitsRepository.allUnits.FindAll(it=>it.state.initiative == max).Count);
-            readyUnit = unitsRepository.allUnits[tiebreaker];
-            readyUnit.state.initiative = readyUnit.state.initiative - GAIN_READY_STATE_THRESHOLD;
-        }
-         return readyUnit;
-    }
-
     public void setNextReadyUnitActive() 
     {
         setNewTurn();
-        currentUnit = getNextReadyUnit();
+        currentUnit = SpeedResolver.GetNextReadyUnit(unitsRepository.allUnits, GAIN_READY_STATE_THRESHOLD);
         TurnStateCompleted();
     }
 
