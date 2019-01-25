@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
+using RSCommonLib;
 using UnityEngine;
-using RSCommonModels;
-using RSCombatEngine;
 
 public class UnitController
 {
