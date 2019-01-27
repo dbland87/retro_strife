@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using RSCommonLib.Models;
 using UnityEngine;
 
 public class EncounterModel
 {
-    Queue<UnitTurnModel> turns = new Queue<UnitTurnModel>();
+    Queue<RSUnitTurnModel> turns = new Queue<RSUnitTurnModel>();
 
-    public void saveTurn(UnitTurnModel turnModel)
+    public void saveTurn(RSUnitTurnModel turnModel)
     {
         turns.Enqueue(turnModel);
     }

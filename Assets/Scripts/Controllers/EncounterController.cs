@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using RSCommonLib.Models;
 
 public class EncounterController
 {
-    PlayerModel player { get; set; }
     EncounterModel encounterModel { get; set; }
     EncounterTurnModel turnModel { get; set; }
     MainUIViewPresenter mainUI { get; set; }
@@ -39,7 +39,7 @@ public class EncounterController
         unitController.ActionsChosen += (e) => onActionsChosen(e);
     }
 
-    private void onActionsChosen(UnitTurnModel chosenActions) 
+    private void onActionsChosen(RSUnitTurnModel chosenActions) 
     {
         encounterModel.saveTurn(chosenActions);
     }

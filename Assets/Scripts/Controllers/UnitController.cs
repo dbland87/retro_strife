@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using RSCommonLib;
+using RSCommonLib.Models;
 using UnityEngine;
 
 public class UnitController
@@ -9,12 +10,12 @@ public class UnitController
     private int ENEMY_POSITIONS_START = 3;
     private int GAIN_READY_STATE_THRESHOLD = 10;
     private UnitIdGenerator idGenerator;
-    private UnitModel currentUnit;
-    private UnitTurnModel currentUnitTurn;
+    private RSUnitModel currentUnit;
+    private RSUnitTurnModel currentUnitTurn;
     PositionFinder positionFinder { get; set; }
     UnitPresenter unitPresenter { get; set; }
     UnitsRepository unitsRepository;
-    public event Action<UnitTurnModel> ActionsChosen;
+    public event Action<RSUnitTurnModel> ActionsChosen;
     public event Action TurnStateCompleted;
 
     public UnitController() 
@@ -73,14 +74,14 @@ public class UnitController
         }
     }
 
-    private void spawnUnit(UnitModel unit, int positionId)
+    private void spawnUnit(RSUnitModel unit, int positionId)
     {
         unitPresenter.instantiateUnit(unit, positionFinder.getVector2FromPositionId(positionId));
-        unit.UnitStateChange += (newState, instanceId) => onUnitStateChanged(newState, instanceId);
+        // unit.UnitStateChange += (newState, instanceId) => onUnitStateChanged(newState, instanceId);
         unit.UnitDeath += (instanceId) => onUnitDeath(instanceId);
     }
 
-    private void onUnitStateChanged(UnitState newState, string instanceId)
+    private void onUnitStateChanged(RSUnitState newState, string instanceId)
     {
         unitPresenter.displayNewUnitState(newState, instanceId);
     }
@@ -96,21 +97,21 @@ public class UnitController
         {
             currentUnitTurn = null;
         }
-        currentUnitTurn = new UnitTurnModel();
+        currentUnitTurn = new RSUnitTurnModel();
     }
 
     private void onUnitClicked(Unit unit)
     {
-        Debug.Log("Target: " + unitsRepository.getUnitModelById(unit.id).name + "\nCurrent health: " + unitsRepository.getUnitModelById(unit.id).state.hp);
-        currentUnitTurn.setTarget(unit);
-        if(currentUnitTurn.isComplete()) 
-        {
-            ActionsChosen(currentUnitTurn);
-            TurnStateCompleted();
-        }
+        // Debug.Log("Target: " + unitsRepository.getUnitModelById(unit.id).name + "\nCurrent health: " + unitsRepository.getUnitModelById(unit.id).state.hp);
+        // currentUnitTurn.setTarget(unit);
+        // if(currentUnitTurn.isComplete()) 
+        // {
+        //     ActionsChosen(currentUnitTurn);
+        //     TurnStateCompleted();
+        // }
     }
 
-    private void onActionClicked(UnitAction action)
+    private void onActionClicked(RSUnitAction action)
     {
         currentUnitTurn.setAction(action);
         if(currentUnitTurn.isComplete()) 
@@ -120,14 +121,14 @@ public class UnitController
         }
     }
 
-    private void resolveActions(UnitTurnModel unitTurn) 
-    {
-        foreach(var unit in unitTurn.targets)
-        {
-            ActionResolver.resolve(unitTurn.actions, unitsRepository.getUnitModelById(unit.id));
-        }
-        setNewTurn();
-    }
+    // private void resolveActions(RSUnitTurnModel unitTurn) 
+    // {
+    //     foreach(var unit in unitTurn.targets)
+    //     {
+    //         ActionResolver.resolve(unitTurn.actions, unitsRepository.getUnitModelById(unit.id));
+    //     }
+    //     setNewTurn();
+    // }
 
     private void resolveUpkeepEffects()
     {
@@ -144,7 +145,7 @@ public class UnitController
          Debug.Log("Resolving round end items");
     }
 
-    public UnitModel findUnitById(int id) {
+    public RSUnitModel findUnitById(int id) {
         if ( unitsRepository.allUnits.Exists(it => it.id == id)) 
         {
             return unitsRepository.allUnits.Find(it => it.id == id);
@@ -176,7 +177,7 @@ public class UnitController
 
     public void onUnitTurnCombat()
     {
-        resolveActions(currentUnitTurn);
+        // resolveActions(currentUnitTurn);
         TurnStateCompleted();
     }
 

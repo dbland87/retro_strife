@@ -10,14 +10,14 @@ public class UnitPresenter : MonoBehaviour
     public GameObject actionButton;
     public GameObject uiCanvas;
     public event Action<Unit> UnitClicked;
-    public event Action<UnitAction> ActionClicked;
+    public event Action<RSUnitAction> ActionClicked;
 
     private void initUnitMap() 
     {
         unitMap = GameObject.Find("Units").GetComponent<UnitMap>();
     }
 
-    public void instantiateUnit(UnitModel unit, Vector2 position)
+    public void instantiateUnit(RSUnitModel unit, Vector2 position)
     {
         if (unitMap == null) {
             initUnitMap();
@@ -32,7 +32,7 @@ public class UnitPresenter : MonoBehaviour
         instance.GetComponent<ClickableUnit>().PointerExit += (e) => onUnitPointerExit(e);
     }
 
-    public void displayNewUnitState(UnitState newState, string instanceId)
+    public void displayNewUnitState(RSUnitState newState, string instanceId)
     {
         Debug.Log("Unit with id: " + instanceId + " now has a health pool of: " + newState.hp);
     }
@@ -42,7 +42,7 @@ public class UnitPresenter : MonoBehaviour
         Debug.Log("Unit with id: " + instanceId + " died");
     }
 
-    private void displayUnitActions(List<UnitAction> actions) {
+    private void displayUnitActions(List<RSUnitAction> actions) {
         if (uiCanvas == null) {
             uiCanvas = GameObject.Find("UICanvas");
         }
@@ -58,7 +58,7 @@ public class UnitPresenter : MonoBehaviour
         UnitClicked(unit);
     }
 
-    public void onActionButtonClicked(UnitAction action) 
+    public void onActionButtonClicked(RSUnitAction action) 
     {
         ActionClicked(action);
     }
@@ -82,7 +82,7 @@ public class UnitPresenter : MonoBehaviour
         //TODO
     }
 
-    public void setActiveUnit(UnitModel unit) 
+    public void setActiveUnit(RSUnitModel unit) 
     {
         Debug.Log("Active unit: " + unit.name);
         displayUnitActions(unit.actions);
